@@ -103,41 +103,29 @@ function renderAllCategories() {
     </div>`
   ).join("");
 }
-
 function populateVoters() {
   const old = $("voterCode");
-
   if (!old) return;
 
   const select = document.createElement("select");
 
   select.id = "voterCode";
   select.className = old.className;
-  select.name = old.name || "voterCode";
+  select.name = "voterCode";
 
-  select.innerHTML =
-    `<option value="">Selecciona tu nombre</option>` +
-    MEMBERS.map(name =>
-      `<option value="${escapeHTML(name)}">${escapeHTML(name)}</option>`
-    ).join("");
+  const option = document.createElement("option");
+  option.value = "";
+  option.textContent = "Selecciona tu nombre";
+  select.appendChild(option);
+
+  MEMBERS.forEach(name => {
+    const option = document.createElement("option");
+    option.value = name;
+    option.textContent = name;
+    select.appendChild(option);
+  });
 
   old.replaceWith(select);
-}
-
-function populateSelects() {
-  ["rank1","rank2","rank3"].forEach(id => {
-    const select = $(id);
-
-    if (!select) return;
-
-    select.innerHTML =
-      `<option value="">Selecciona un miembro</option>` +
-      MEMBERS.map(m =>
-        `<option value="${escapeHTML(m)}">${escapeHTML(m)}</option>`
-      ).join("");
-
-    select.onchange = validate;
-  });
 }
 
 function renderVote() {
