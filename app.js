@@ -1,4 +1,3 @@
-
 const SUPABASE_URL = "https://lretzhtutvbcmixuosno.supabase.co";
 const SUPABASE_KEY = "sb_publishable_M5KqMSU0qi6W--wIDto3LQ_2IHo32Az";
 
@@ -71,8 +70,10 @@ function escapeHTML(s) {
 function showToast(msg) {
   const t = $("toast");
   if (!t) return;
+
   t.textContent = msg;
   t.classList.add("show");
+
   setTimeout(() => t.classList.remove("show"), 2400);
 }
 
@@ -86,6 +87,7 @@ function renderCategoryList() {
   document.querySelectorAll(".cat-nav").forEach(b => {
     b.onclick = () => {
       if (!voter) return;
+
       current = +b.dataset.i;
       renderVote();
     };
@@ -103,15 +105,23 @@ function renderAllCategories() {
 }
 
 function populateVoters() {
-  const select = $("voterCode");
+  const old = $("voterCode");
 
-  if (!select) return;
+  if (!old) return;
+
+  const select = document.createElement("select");
+
+  select.id = "voterCode";
+  select.className = old.className;
+  select.name = old.name || "voterCode";
 
   select.innerHTML =
     `<option value="">Selecciona tu nombre</option>` +
     MEMBERS.map(name =>
       `<option value="${escapeHTML(name)}">${escapeHTML(name)}</option>`
     ).join("");
+
+  old.replaceWith(select);
 }
 
 function populateSelects() {
@@ -159,6 +169,7 @@ function renderVote() {
 
   document.querySelectorAll(".cat-nav").forEach((b,i) => {
     b.classList.toggle("active", i === current);
+
     b.classList.toggle(
       "done",
       !!votes[i] && votes[i].every(Boolean)
@@ -192,6 +203,7 @@ function validate() {
   }
 
   $("validation").textContent = msg;
+
   return !msg;
 }
 
@@ -291,144 +303,10 @@ async function submitVote() {
   }
 
   const nextButton = $("nextBtn");
+
   nextButton.disabled = true;
   nextButton.textContent = "Guardando votación...";
 
   try {
     const response = await fetch(
-      `${SUPABASE_URL}/rest/v1/rpc/submit_sagrada_vote`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "apikey": SUPABASE_KEY,
-          "Authorization": `Bearer ${SUPABASE_KEY}`
-        },
-        body: JSON.stringify({
-          p_voter_code: voter,
-          p_votes: payload
-        })
-      }
-    );
-
-    const result = await response.json();
-
-    if (!response.ok) {
-      throw new Error(
-        result.message ||
-        result.error_description ||
-        result.hint ||
-        "Error al guardar la votación."
-      );
-    }
-
-    $("votingApp").classList.add("hidden");
-
-    const resultados = $("resultados");
-    if (resultados) {
-      resultados.classList.add("hidden");
-    }
-
-    const resultsContent = $("resultsContent");
-    if (resultsContent) {
-      resultsContent.innerHTML = "";
-    }
-
-    const gate = $("voterGate");
-    if (gate) {
-      gate.classList.add("hidden");
-    }
-
-    const main = $("votacion");
-    if (main) {
-      main.innerHTML = `
-        <div class="result-card" style="text-align:center;">
-          <div style="font-size:4rem;">🪬</div>
-          <h2>VOTACIÓN REGISTRADA</h2>
-          <p>Tu voto fue guardado correctamente.</p>
-          <p><strong>Los resultados permanecen secretos.</strong></p>
-        </div>
-      `;
-    }
-
-  } catch (error) {
-    console.error(error);
-
-    showToast(
-      "No se pudo guardar la votación: " + error.message
-    );
-
-    nextButton.disabled = false;
-
-    nextButton.textContent =
-      current === CATEGORIES.length - 1
-        ? "Finalizar votación ✓"
-        : "Guardar y continuar →";
-  }
-}
-
-function resetData() {
-  alert(
-    "Los votos ya no se guardan en este navegador. " +
-    "Los datos oficiales están protegidos en Supabase."
-  );
-}
-
-document.addEventListener("DOMContentLoaded", () => {
-
-  renderCategoryList();
-  renderAllCategories();
-  populateVoters();
-  populateSelects();
-
-  $("startVoting").onclick = startVoting;
-
-  $("nextBtn").onclick = () => {
-
-    if (!saveCurrent()) return;
-
-    if (current < CATEGORIES.length - 1) {
-
-      current++;
-      renderVote();
-
-      window.scrollTo({
-        top: $("votingApp").offsetTop - 90,
-        behavior: "smooth"
-      });
-
-    } else {
-
-      submitVote();
-
-    }
-  };
-
-  $("prevBtn").onclick = () => {
-
-    if (current > 0) {
-      current--;
-      renderVote();
-    }
-
-  };
-
-  if ($("resetData")) {
-    $("resetData").onclick = resetData;
-  }
-
-  document.querySelectorAll("[data-scroll]").forEach(b => {
-    b.onclick = () => {
-      const target = document.querySelector(
-        b.dataset.scroll
-      );
-
-      if (target) {
-        target.scrollIntoView({
-          behavior:"smooth"
-        });
-      }
-    };
-  });
-
-});
+      `${SUPABASE_URL}/rest/v1
