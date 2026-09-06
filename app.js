@@ -686,32 +686,21 @@ async function submitVoting() {
           }
         );
 
-
     if (error) {
-      throw error;
+  console.error("ERROR RPC COMPLETO:", error);
+
+  alert(
+    "ERROR REAL DE SUPABASE\n\n" +
+    "Código: " + (error.code || "sin código") + "\n\n" +
+    "Mensaje: " + (error.message || "sin mensaje") + "\n\n" +
+    "Detalles: " + (error.details || "sin detalles") + "\n\n" +
+    "Pista: " + (error.hint || "sin pista")
+  );
+
+  throw error;
     }
 
-
-    console.log(
-      "Votación registrada:",
-      data
-    );
-
-
-    $("votingCard")
-      .classList.add("hidden");
-
-    $("successCard")
-      .classList.remove("hidden");
-
-
-    window.scrollTo({
-      top: $("successCard").offsetTop - 20,
-      behavior: "smooth"
-    });
-
-
-  } catch (error) {
+     catch (error) {
 
     console.error(error);
 
