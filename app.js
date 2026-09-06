@@ -45,7 +45,7 @@ const CATEGORIES = [
   ["📚","El más aplicado","Mientras los demás descansan, él está estudiando."],
   ["🐀","La rata de hospital","Prácticamente tiene domicilio en el hospital."],
   ["🧨","El más problemático","Donde llega, algo termina pasando."],
-  ["🧠💀","El “¿cómo pasaste?”","Inexplicablemente ha llegado hasta sexto año."],
+  ["🧠💀","El más salado","Donde llega tocha el servicio y no para de trabajar."],
   ["🫡","El más leal","Podrá ser pendejo, pero nunca abandona a la Orden."],
   ["🧻","El código marrón","El que siempre anda llenando papeles."],
   ["👑","El más Sagrada Orden","El que mejor representa la esencia del grupo."]
