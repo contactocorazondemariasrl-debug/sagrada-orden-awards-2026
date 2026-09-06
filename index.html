@@ -66,10 +66,12 @@
         <div>
           <span class="seal">🪬</span>
           <h3>Identificación del miembro</h3>
-          <p>Para esta primera versión, usa un código único por votante. Ejemplo: <b>ORDEN-01</b>.</p>
+          <p>Selecciona tu nombre para identificar tu voto.</p>
         </div>
         <div class="gate-form">
-          <input id="voterCode" maxlength="30" autocomplete="off" placeholder="Código del votante">
+          <select id="voterCode">
+            <option value="">Selecciona tu nombre</option>
+          </select>
           <button class="gold-btn compact" id="startVoting">Comenzar</button>
         </div>
         <p class="gate-note" id="gateNote"></p>
