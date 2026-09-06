@@ -32,10 +32,10 @@ const MEMBERS = [
   "Ismael Mendoza",
   "Ivette Muñoz",
   "Jasiel Molina",
+  "Deris Ortez",
   "Jorge Avila",
   "Nelson Garcia",
-  "Rómulo Péreira",
-  "Deris Ortez"
+  "Rómulo Péreira"
 ];
 
 
