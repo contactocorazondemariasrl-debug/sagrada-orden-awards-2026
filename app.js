@@ -515,7 +515,17 @@ async function startVoting() {
 
 
     if (error) {
-      throw error;
+  console.error("ERROR SUPABASE COMPLETO:", error);
+
+  alert(
+    "ERROR SUPABASE\n\n" +
+    "Código: " + (error.code || "sin código") + "\n\n" +
+    "Mensaje: " + (error.message || "sin mensaje") + "\n\n" +
+    "Detalles: " + (error.details || "sin detalles") + "\n\n" +
+    "Pista: " + (error.hint || "sin pista")
+  );
+
+  throw error;
     }
 
 
