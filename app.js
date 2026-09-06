@@ -1,5 +1,23 @@
+// ==========================================
+// SAGRADA ORDEN AWARDS 2026
+// SISTEMA NUEVO
+// ==========================================
+
 const SUPABASE_URL = "https://lretzhtutvbcmixuosno.supabase.co";
-const SUPABASE_KEY = "sb_publishable_M5KqMSU0qi6W--wIDto3LQ_2IHo32Az";
+
+const SUPABASE_KEY =
+  "sb_publishable_M5KqMSU0qi6W--wIDto3LQ_2IHo32Az";
+
+const supabaseClient =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+
+
+// ==========================================
+// MIEMBROS / VOTANTES
+// ==========================================
 
 const MEMBERS = [
   "Juan Diego Morales",
@@ -20,399 +38,790 @@ const MEMBERS = [
   "Deris Ortez"
 ];
 
+
+// ==========================================
+// CATEGORÍAS
+// ==========================================
+
 const CATEGORIES = [
-  ["🦁","El más aventado","Siempre se tira de primero aunque no sepa qué está haciendo."],
-  ["🧠","El más listo","El que parece tener respuesta para todo."],
-  ["💰","El más tacaño","Protege su dinero como si fuera patrimonio nacional."],
-  ["🫠","El más irresponsable","Vive al límite de las consecuencias."],
-  ["🤥","El más mentiroso","Tiene una versión diferente de la historia para cada persona."],
-  ["🎩","El miembro más formal","Siempre correcto, educado y compuesto."],
-  ["🕊️","El más palomudo","Inocente, despistado y fácil de convencer."],
-  ["💵","El más pistudo","Económicamente bendecido por los dioses."],
-  ["⚖️","El más honrado","Ni aunque le paguen se presta para una pendejada."],
-  ["😏","El más coqueto","No puede hablar con alguien sin tirar aunque sea una indirecta."],
-  ["🪫","El más acabado","Medicina ya hizo lo suyo; parece que lleva 40 años trabajando."],
-  ["🗣️","El más chismoso","Sabe cosas que oficialmente nadie le contó."],
-  ["🥱","El más dormido","Puede quedarse dormido literalmente en cualquier lugar."],
-  ["⏰","El más impuntual","“Ya voy” significa mínimo 40 minutos."],
-  ["🤡","El más payaso","Nunca puede comportarse seriamente."],
-  ["🧊","El más seco","Responde “jaja” sin haber reído."],
-  ["❤️","El más enamoradizo","Conoce a alguien y ya está imaginando la boda."],
-  ["🚩","El más red flag","Todos saben que es mala idea, pero igual tiene pegue."],
-  ["💀","El más probable de caer preso","No necesita explicación."],
-  ["🍺","El más bolo","Aparece una botella y pierde toda responsabilidad."],
-  ["🧑‍⚕️","El más médico","Convierte cualquier conversación en una consulta."],
-  ["📚","El más aplicado","Mientras los demás descansan, él está estudiando."],
-  ["🐀","La rata de hospital","Prácticamente tiene domicilio en el hospital."],
-  ["🧨","El más problemático","Donde llega, algo termina pasando."],
-  ["🧠💀","El más salado","Donde llega tocha el servicio y no para de trabajar."],
-  ["🫡","El más leal","Podrá ser pendejo, pero nunca abandona a la Orden."],
-  ["🧻","El código marrón","El que siempre anda llenando papeles."],
-  ["👑","El más Sagrada Orden","El que mejor representa la esencia del grupo."]
+
+  {
+    icon: "🦁",
+    name: "El más aventado",
+    description:
+      "Siempre se tira de primero aunque no sepa qué está haciendo."
+  },
+
+  {
+    icon: "🧠",
+    name: "El más listo",
+    description:
+      "El que parece tener respuesta para todo."
+  },
+
+  {
+    icon: "💰",
+    name: "El más tacaño",
+    description:
+      "Protege su dinero como si fuera patrimonio nacional."
+  },
+
+  {
+    icon: "🫠",
+    name: "El más irresponsable",
+    description:
+      "Vive al límite de las consecuencias."
+  },
+
+  {
+    icon: "🤥",
+    name: "El más mentiroso",
+    description:
+      "Tiene una versión diferente de la historia para cada persona."
+  },
+
+  {
+    icon: "🎩",
+    name: "El miembro más formal",
+    description:
+      "Siempre correcto, educado y compuesto."
+  },
+
+  {
+    icon: "🕊️",
+    name: "El más palomudo",
+    description:
+      "Inocente, despistado y fácil de convencer."
+  },
+
+  {
+    icon: "💵",
+    name: "El más pistudo",
+    description:
+      "Económicamente bendecido por los dioses."
+  },
+
+  {
+    icon: "⚖️",
+    name: "El más honrado",
+    description:
+      "Ni aunque le paguen se presta para una pendejada."
+  },
+
+  {
+    icon: "😏",
+    name: "El más coqueto",
+    description:
+      "No puede hablar con alguien sin tirar aunque sea una indirecta."
+  },
+
+  {
+    icon: "🪫",
+    name: "El más acabado",
+    description:
+      "Medicina ya hizo lo suyo; parece que lleva 40 años trabajando."
+  },
+
+  {
+    icon: "🗣️",
+    name: "El más chismoso",
+    description:
+      "Sabe cosas que oficialmente nadie le contó."
+  },
+
+  {
+    icon: "🥱",
+    name: "El más dormido",
+    description:
+      "Puede quedarse dormido literalmente en cualquier lugar."
+  },
+
+  {
+    icon: "⏰",
+    name: "El más impuntual",
+    description:
+      "“Ya voy” significa mínimo 40 minutos."
+  },
+
+  {
+    icon: "🤡",
+    name: "El más payaso",
+    description:
+      "Nunca puede comportarse seriamente."
+  },
+
+  {
+    icon: "🧊",
+    name: "El más seco",
+    description:
+      "Responde “jaja” sin haber reído."
+  },
+
+  {
+    icon: "❤️",
+    name: "El más enamoradizo",
+    description:
+      "Conoce a alguien y ya está imaginando la boda."
+  },
+
+  {
+    icon: "🚩",
+    name: "El más red flag",
+    description:
+      "Todos saben que es mala idea, pero igual tiene pegue."
+  },
+
+  {
+    icon: "💀",
+    name: "El más probable de caer preso",
+    description:
+      "No necesita explicación."
+  },
+
+  {
+    icon: "🍺",
+    name: "El más bolo",
+    description:
+      "Aparece una botella y pierde toda responsabilidad."
+  },
+
+  {
+    icon: "🧑‍⚕️",
+    name: "El más médico",
+    description:
+      "Convierte cualquier conversación en una consulta."
+  },
+
+  {
+    icon: "📚",
+    name: "El más aplicado",
+    description:
+      "Mientras los demás descansan, él está estudiando."
+  },
+
+  {
+    icon: "🐀",
+    name: "La rata de hospital",
+    description:
+      "Prácticamente tiene domicilio en el hospital."
+  },
+
+  {
+    icon: "🧨",
+    name: "El más problemático",
+    description:
+      "Donde llega, algo termina pasando."
+  },
+
+  {
+    icon: "🧠💀",
+    name: "El “¿cómo pasaste?”",
+    description:
+      "Inexplicablemente ha llegado hasta sexto año."
+  },
+
+  {
+    icon: "🫡",
+    name: "El más leal",
+    description:
+      "Podrá ser pendejo, pero nunca abandona a la Orden."
+  },
+
+  {
+    icon: "🧻",
+    name: "El código marrón",
+    description:
+      "El que siempre anda llenando papeles."
+  },
+
+  {
+    icon: "👑",
+    name: "El más Sagrada Orden",
+    description:
+      "El que mejor representa la esencia del grupo."
+  }
+
 ];
 
-let current = 0;
-let voter = null;
-let votes = CATEGORIES.map(() => ["","",""]);
+
+// ==========================================
+// ESTADO
+// ==========================================
+
+let currentCategory = 0;
+
+let currentVoter = null;
+
+let selections = [];
+
+
+// Crear espacio para las 28 categorías
+function createEmptySelections() {
+
+  return CATEGORIES.map(() => ({
+    first: "",
+    second: "",
+    third: ""
+  }));
+
+}
+
+
+// ==========================================
+// ELEMENTOS
+// ==========================================
 
 const $ = id => document.getElementById(id);
 
-function escapeHTML(s) {
-  return String(s).replace(/[&<>"']/g, c => ({
-    "&":"&amp;",
-    "<":"&lt;",
-    ">":"&gt;",
-    '"':"&quot;",
-    "'":"&#039;"
-  }[c]));
-}
 
-function showToast(msg) {
-  const t = $("toast");
-  if (!t) return;
+// ==========================================
+// CARGAR VOTANTES
+// ==========================================
 
-  t.textContent = msg;
-  t.classList.add("show");
+async function loadVoters() {
 
-  setTimeout(() => t.classList.remove("show"), 2400);
-}
+  const voterSelect = $("voter");
 
-function renderCategoryList() {
-  $("categoryList").innerHTML = CATEGORIES.map((c,i) =>
-    `<button class="cat-nav ${i===0?"active":""}" data-i="${i}">
-      ${String(i+1).padStart(2,"0")}. ${escapeHTML(c[1])}
-    </button>`
-  ).join("");
-
-  document.querySelectorAll(".cat-nav").forEach(b => {
-    b.onclick = () => {
-      if (!voter) return;
-
-      current = +b.dataset.i;
-      renderVote();
-    };
-  });
-}
-
-function renderAllCategories() {
-  $("allCategories").innerHTML = CATEGORIES.map((c,i) =>
-    `<div class="category-tile">
-      <span class="icon">${c[0]}</span>
-      <h3>${i+1}. ${escapeHTML(c[1])}</h3>
-      <p>${escapeHTML(c[2])}</p>
-    </div>`
-  ).join("");
-}
-function populateVoters() {
-  const old = $("voterCode");
-  if (!old) return;
-
-  const select = document.createElement("select");
-
-  select.id = "voterCode";
-  select.className = old.className;
-  select.name = "voterCode";
-
-  const option = document.createElement("option");
-  option.value = "";
-  option.textContent = "Selecciona tu nombre";
-  select.appendChild(option);
-
-  MEMBERS.forEach(name => {
-    const option = document.createElement("option");
-    option.value = name;
-    option.textContent = name;
-    select.appendChild(option);
-  });
-
-  old.replaceWith(select);
-}
-
-function renderVote() {
-  const c = CATEGORIES[current];
-  const selected = votes[current] || ["","",""];
-
-  $("categoryNumber").textContent =
-    String(current + 1).padStart(2,"0");
-
-  $("categoryEyebrow").textContent =
-    `CATEGORÍA ${current + 1} DE ${CATEGORIES.length}`;
-
-  $("categoryTitle").textContent = c[1];
-  $("categoryDesc").textContent = c[2];
-  $("categoryIcon").textContent = c[0];
-
-  $("rank1").value = selected[0] || "";
-  $("rank2").value = selected[1] || "";
-  $("rank3").value = selected[2] || "";
-
-  $("progressText").textContent =
-    `Categoría ${current + 1} de ${CATEGORIES.length}`;
-
-  const percent =
-    Math.round(((current + 1) / CATEGORIES.length) * 100);
-
-  $("progressPercent").textContent = percent + "%";
-  $("progressBar").style.width = percent + "%";
-
-  document.querySelectorAll(".cat-nav").forEach((b,i) => {
-    b.classList.toggle("active", i === current);
-
-    b.classList.toggle(
-      "done",
-      !!votes[i] && votes[i].every(Boolean)
-    );
-  });
-
-  $("prevBtn").disabled = current === 0;
-  $("prevBtn").style.opacity = current === 0 ? ".45" : "1";
-
-  $("nextBtn").textContent =
-    current === CATEGORIES.length - 1
-      ? "Finalizar votación ✓"
-      : "Guardar y continuar →";
-
-  $("validation").textContent = "";
-}
-
-function validate() {
-  const vals = [
-    $("rank1").value,
-    $("rank2").value,
-    $("rank3").value
-  ];
-
-  let msg = "";
-
-  if (vals.some(v => !v)) {
-    msg = "Debes elegir a tres personas.";
-  } else if (new Set(vals).size < 3) {
-    msg = "No puedes seleccionar a la misma persona en los tres puestos.";
-  }
-
-  $("validation").textContent = msg;
-
-  return !msg;
-}
-
-function saveCurrent() {
-  if (!validate()) return false;
-
-  votes[current] = [
-    $("rank1").value,
-    $("rank2").value,
-    $("rank3").value
-  ];
-
-  return true;
-}
-
-async function startVoting() {
-  const selected = $("voterCode").value.trim();
-
-  if (!selected) {
-    $("gateNote").textContent =
-      "Selecciona tu nombre para continuar.";
+  if (!voterSelect) {
+    console.error("No existe el elemento #voter");
     return;
   }
 
-  $("gateNote").textContent = "Verificando...";
+  voterSelect.innerHTML =
+    `<option value="">Selecciona tu nombre</option>`;
 
-  try {
-    const response = await fetch(
-      `${SUPABASE_URL}/rest/v1/voters?code=eq.${encodeURIComponent(selected)}&select=code,has_voted`,
-      {
-        headers: {
-          "apikey": SUPABASE_KEY,
-          "Authorization": `Bearer ${SUPABASE_KEY}`
-        }
-      }
-    );
+  MEMBERS.forEach(name => {
 
-    if (!response.ok) {
-      throw new Error("No se pudo conectar con Supabase.");
-    }
+    const option =
+      document.createElement("option");
 
-    const data = await response.json();
+    option.value = name;
 
-    if (!data.length) {
-      $("gateNote").textContent =
-        "Ese nombre no está registrado.";
-      return;
-    }
+    option.textContent = name;
 
-    if (data[0].has_voted) {
-      $("gateNote").textContent =
-        "Este miembro ya realizó su votación.";
-      return;
-    }
+    voterSelect.appendChild(option);
 
-    voter = selected;
-    current = 0;
-    votes = CATEGORIES.map(() => ["","",""]);
+  });
 
-    $("voterGate").classList.add("hidden");
-    $("votingApp").classList.remove("hidden");
-
-    renderVote();
-
-    document.querySelector("#votacion")
-      .scrollIntoView({behavior:"smooth"});
-
-    showToast(`Identificado como ${selected}`);
-
-  } catch (error) {
-    console.error(error);
-
-    $("gateNote").textContent =
-      "No se pudo conectar con el sistema de votación. Intenta nuevamente.";
-  }
 }
 
-async function submitVote() {
-  if (!saveCurrent()) return;
+
+// ==========================================
+// CARGAR OPCIONES DE CADA CATEGORÍA
+// ==========================================
+
+function loadRankingOptions() {
+
+  const selects = [
+    $("rank1"),
+    $("rank2"),
+    $("rank3")
+  ];
+
+  selects.forEach(select => {
+
+    if (!select) return;
+
+    select.innerHTML =
+      `<option value="">Selecciona un miembro</option>`;
+
+    MEMBERS.forEach(name => {
+
+      const option =
+        document.createElement("option");
+
+      option.value = name;
+
+      option.textContent = name;
+
+      select.appendChild(option);
+
+    });
+
+  });
+
+}
+
+
+// ==========================================
+// MOSTRAR CATEGORÍA
+// ==========================================
+
+function renderCategory() {
+
+  const category =
+    CATEGORIES[currentCategory];
+
+  const saved =
+    selections[currentCategory];
+
+
+  $("categoryNumber").textContent =
+    `CATEGORÍA ${currentCategory + 1} DE ${CATEGORIES.length}`;
+
+  $("categoryIcon").textContent =
+    category.icon;
+
+  $("categoryTitle").textContent =
+    category.name;
+
+  $("categoryDescription").textContent =
+    category.description;
+
+
+  $("rank1").value =
+    saved.first || "";
+
+  $("rank2").value =
+    saved.second || "";
+
+  $("rank3").value =
+    saved.third || "";
+
+
+  const percent =
+    Math.round(
+      ((currentCategory + 1) /
+      CATEGORIES.length) * 100
+    );
+
+
+  $("progressText").textContent =
+    `Categoría ${currentCategory + 1} de ${CATEGORIES.length}`;
+
+  $("progressPercent").textContent =
+    `${percent}%`;
+
+  $("progressBar").style.width =
+    `${percent}%`;
+
+
+  $("previousButton").disabled =
+    currentCategory === 0;
+
+}
+
+
+// ==========================================
+// VALIDAR CATEGORÍA
+// ==========================================
+
+function validateCategory() {
+
+  const first =
+    $("rank1").value;
+
+  const second =
+    $("rank2").value;
+
+  const third =
+    $("rank3").value;
+
+
+  const validation =
+    $("validation");
+
+
+  if (!first || !second || !third) {
+
+    validation.textContent =
+      "Debes elegir a tres personas.";
+
+    return false;
+
+  }
+
+
+  if (
+    first === second ||
+    first === third ||
+    second === third
+  ) {
+
+    validation.textContent =
+      "No puedes repetir a la misma persona.";
+
+    return false;
+
+  }
+
+
+  validation.textContent = "";
+
+  return true;
+
+}
+
+
+// ==========================================
+// GUARDAR CATEGORÍA ACTUAL
+// ==========================================
+
+function saveCurrentCategory() {
+
+  if (!validateCategory()) {
+    return false;
+  }
+
+
+  selections[currentCategory] = {
+
+    first: $("rank1").value,
+
+    second: $("rank2").value,
+
+    third: $("rank3").value
+
+  };
+
+
+  return true;
+
+}
+
+
+// ==========================================
+// INICIAR VOTACIÓN
+// ==========================================
+
+async function startVoting() {
+
+  const voter =
+    $("voter").value;
+
+
+  if (!voter) {
+
+    $("loginStatus").textContent =
+      "Selecciona tu nombre para continuar.";
+
+    return;
+
+  }
+
+
+  $("loginStatus").textContent =
+    "Verificando votante...";
+
+
+  try {
+
+    const { data, error } =
+      await supabaseClient
+        .from("voters")
+        .select("code, has_voted")
+        .eq("code", voter)
+        .maybeSingle();
+
+
+    if (error) {
+      throw error;
+    }
+
+
+    if (!data) {
+
+      $("loginStatus").textContent =
+        "Este miembro no está registrado.";
+
+      return;
+
+    }
+
+
+    if (data.has_voted) {
+
+      $("loginStatus").textContent =
+        "Este miembro ya realizó su votación.";
+
+      return;
+
+    }
+
+
+    currentVoter = voter;
+
+    currentCategory = 0;
+
+    selections =
+      createEmptySelections();
+
+
+    $("loginCard")
+      .classList.add("hidden");
+
+    $("votingCard")
+      .classList.remove("hidden");
+
+
+    renderCategory();
+
+
+    window.scrollTo({
+      top: $("votingCard").offsetTop - 20,
+      behavior: "smooth"
+    });
+
+
+  } catch (error) {
+
+    console.error(error);
+
+    $("loginStatus").textContent =
+      "No se pudo conectar con Supabase.";
+
+  }
+
+}
+
+
+// ==========================================
+// FINALIZAR VOTACIÓN
+// ==========================================
+
+async function submitVoting() {
+
+  const button =
+    $("nextButton");
+
+
+  button.disabled = true;
+
+  button.textContent =
+    "GUARDANDO...";
+
 
   const payload = [];
 
-  votes.forEach((vote, categoryIndex) => {
-    vote.forEach((member, placeIndex) => {
+
+  selections.forEach(
+    (selection, categoryIndex) => {
+
       payload.push({
-        category_id: categoryIndex + 1,
-        member_name: member,
-        place: placeIndex + 1,
-        points: [3,2,1][placeIndex]
+
+        category_id:
+          categoryIndex + 1,
+
+        member_name:
+          selection.first,
+
+        place: 1,
+
+        points: 3
+
       });
-    });
-  });
+
+
+      payload.push({
+
+        category_id:
+          categoryIndex + 1,
+
+        member_name:
+          selection.second,
+
+        place: 2,
+
+        points: 2
+
+      });
+
+
+      payload.push({
+
+        category_id:
+          categoryIndex + 1,
+
+        member_name:
+          selection.third,
+
+        place: 3,
+
+        points: 1
+
+      });
+
+    }
+  );
+
 
   if (payload.length !== 84) {
-    showToast("Faltan votos por completar.");
+
+    button.disabled = false;
+
+    button.textContent =
+      "SIGUIENTE →";
+
+    alert(
+      "La votación no está completa."
+    );
+
+    return;
+
+  }
+
+
+  try {
+
+    const { data, error } =
+      await supabaseClient
+        .rpc(
+          "submit_sagrada_vote",
+          {
+            p_voter_code:
+              currentVoter,
+
+            p_votes:
+              payload
+          }
+        );
+
+
+    if (error) {
+      throw error;
+    }
+
+
+    console.log(
+      "Votación registrada:",
+      data
+    );
+
+
+    $("votingCard")
+      .classList.add("hidden");
+
+    $("successCard")
+      .classList.remove("hidden");
+
+
+    window.scrollTo({
+      top: $("successCard").offsetTop - 20,
+      behavior: "smooth"
+    });
+
+
+  } catch (error) {
+
+    console.error(error);
+
+    button.disabled = false;
+
+    button.textContent =
+      "FINALIZAR VOTACIÓN ✓";
+
+
+    alert(
+      "No se pudo guardar la votación.\n\n" +
+      error.message
+    );
+
+  }
+
+}
+
+
+// ==========================================
+// BOTÓN SIGUIENTE
+// ==========================================
+
+function nextCategory() {
+
+  if (!saveCurrentCategory()) {
     return;
   }
 
-  const nextButton = $("nextBtn");
 
-  nextButton.disabled = true;
-  nextButton.textContent = "Guardando votación...";
+  if (
+    currentCategory <
+    CATEGORIES.length - 1
+  ) {
 
-  try {
-    const response = await fetch(
-      `${SUPABASE_URL}/rest/v1
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "apikey": SUPABASE_KEY,
-          "Authorization": `Bearer ${SUPABASE_KEY}`
-        },
-        body: JSON.stringify({
-          p_voter_code: voter,
-          p_votes: payload
-        })
-      }
+    currentCategory++;
+
+    renderCategory();
+
+    window.scrollTo({
+      top: $("votingCard").offsetTop - 20,
+      behavior: "smooth"
+    });
+
+    return;
+
+  }
+
+
+  submitVoting();
+
+}
+
+
+// ==========================================
+// BOTÓN ANTERIOR
+// ==========================================
+
+function previousCategory() {
+
+  if (currentCategory <= 0) {
+    return;
+  }
+
+
+  saveCurrentCategory();
+
+  currentCategory--;
+
+  renderCategory();
+
+}
+
+
+// ==========================================
+// INICIO
+// ==========================================
+
+document.addEventListener(
+  "DOMContentLoaded",
+  async () => {
+
+    console.log(
+      "Sagrada Orden Awards 2026 iniciado."
     );
 
-    const result = await response.json();
 
-    if (!response.ok) {
-      throw new Error(
-        result.message ||
-        result.error_description ||
-        result.hint ||
-        "Error al guardar la votación."
+    selections =
+      createEmptySelections();
+
+
+    loadRankingOptions();
+
+    await loadVoters();
+
+
+    $("startButton")
+      .addEventListener(
+        "click",
+        startVoting
       );
-    }
 
-    $("votingApp").classList.add("hidden");
 
-    const resultados = $("resultados");
-    if (resultados) resultados.classList.add("hidden");
+    $("nextButton")
+      .addEventListener(
+        "click",
+        nextCategory
+      );
 
-    const resultsContent = $("resultsContent");
-    if (resultsContent) resultsContent.innerHTML = "";
 
-    const gate = $("voterGate");
-    if (gate) gate.classList.add("hidden");
+    $("previousButton")
+      .addEventListener(
+        "click",
+        previousCategory
+      );
 
-    const main = $("votacion");
-    if (main) {
-      main.innerHTML = `
-        <div class="result-card" style="text-align:center;">
-          <div style="font-size:4rem;">🪬</div>
-          <h2>VOTACIÓN REGISTRADA</h2>
-          <p>Tu voto fue guardado correctamente.</p>
-          <p><strong>Los resultados permanecen secretos.</strong></p>
-        </div>
-      `;
-    }
 
-  } catch (error) {
-    console.error(error);
-
-    showToast(
-      "No se pudo guardar la votación: " + error.message
+    console.log(
+      "Sistema listo."
     );
 
-    nextButton.disabled = false;
-
-    nextButton.textContent =
-      current === CATEGORIES.length - 1
-        ? "Finalizar votación ✓"
-        : "Guardar y continuar →";
   }
-}
-
-function resetData() {
-  alert(
-    "Los votos ya no se guardan en este navegador. " +
-    "Los datos oficiales están protegidos en Supabase."
-  );
-}
-
-document.addEventListener("DOMContentLoaded", () => {
-  renderCategoryList();
-  renderAllCategories();
-  populateVoters();
-  populateSelects();
-
-  $("startVoting").onclick = startVoting;
-
-  $("nextBtn").onclick = () => {
-    if (!saveCurrent()) return;
-
-    if (current < CATEGORIES.length - 1) {
-      current++;
-      renderVote();
-
-      window.scrollTo({
-        top: $("votingApp").offsetTop - 90,
-        behavior: "smooth"
-      });
-    } else {
-      submitVote();
-    }
-  };
-
-  $("prevBtn").onclick = () => {
-    if (current > 0) {
-      current--;
-      renderVote();
-    }
-  };
-
-  if ($("resetData")) {
-    $("resetData").onclick = resetData;
-  }
-
-  document.querySelectorAll("[data-scroll]").forEach(b => {
-    b.onclick = () => {
-      const target = document.querySelector(b.dataset.scroll);
-
-      if (target) {
-        target.scrollIntoView({
-          behavior: "smooth"
-        });
-      }
-    };
-  });
-});
+);
