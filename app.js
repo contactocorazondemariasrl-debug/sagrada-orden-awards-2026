@@ -1,18 +1,20 @@
 // ==========================================
 // SAGRADA ORDEN AWARDS 2026
-// SISTEMA NUEVO
+// SISTEMA NUEVO Y CORREGIDO
 // ==========================================
 
-const SUPABASE_URL = "https://lretzhtutvbcmixuosno.supabase.co";
+
+// ==========================================
+// SUPABASE
+// ==========================================
+
+const SUPABASE_URL =
+  "https://lretzhtutvbcmixuosno.supabase.co";
 
 const SUPABASE_KEY =
   "sb_publishable_M5KqMSU0qi6W--wIDto3LQ_2IHo32Az";
 
-const supabaseClient =
-  window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY
-  );
+let supabaseClient = null;
 
 
 // ==========================================
@@ -249,13 +251,21 @@ const CATEGORIES = [
 // ==========================================
 
 let currentCategory = 0;
-
 let currentVoter = null;
-
 let selections = [];
 
 
-// Crear espacio para las 28 categorías
+// ==========================================
+// ELEMENTOS
+// ==========================================
+
+const $ = id => document.getElementById(id);
+
+
+// ==========================================
+// CREAR VOTACIÓN VACÍA
+// ==========================================
+
 function createEmptySelections() {
 
   return CATEGORIES.map(() => ({
@@ -268,27 +278,74 @@ function createEmptySelections() {
 
 
 // ==========================================
-// ELEMENTOS
+// INICIALIZAR SUPABASE
 // ==========================================
 
-const $ = id => document.getElementById(id);
+function initializeSupabase() {
+
+  try {
+
+    if (
+      window.supabase &&
+      typeof window.supabase.createClient === "function"
+    ) {
+
+      supabaseClient =
+        window.supabase.createClient(
+          SUPABASE_URL,
+          SUPABASE_KEY
+        );
+
+      console.log(
+        "Supabase inicializado correctamente."
+      );
+
+      return true;
+
+    }
+
+    console.error(
+      "La librería de Supabase no está disponible."
+    );
+
+    return false;
+
+  } catch (error) {
+
+    console.error(
+      "Error inicializando Supabase:",
+      error
+    );
+
+    return false;
+
+  }
+
+}
 
 
 // ==========================================
 // CARGAR VOTANTES
 // ==========================================
 
-async function loadVoters() {
+function loadVoters() {
 
   const voterSelect = $("voter");
 
   if (!voterSelect) {
-    console.error("No existe el elemento #voter");
+
+    console.error(
+      "No existe el elemento #voter"
+    );
+
     return;
+
   }
+
 
   voterSelect.innerHTML =
     `<option value="">Selecciona tu nombre</option>`;
+
 
   MEMBERS.forEach(name => {
 
@@ -303,11 +360,17 @@ async function loadVoters() {
 
   });
 
+
+  console.log(
+    "Miembros cargados:",
+    MEMBERS.length
+  );
+
 }
 
 
 // ==========================================
-// CARGAR OPCIONES DE CADA CATEGORÍA
+// CARGAR OPCIONES DE RANKING
 // ==========================================
 
 function loadRankingOptions() {
@@ -318,12 +381,15 @@ function loadRankingOptions() {
     $("rank3")
   ];
 
+
   selects.forEach(select => {
 
     if (!select) return;
 
+
     select.innerHTML =
       `<option value="">Selecciona un miembro</option>`;
+
 
     MEMBERS.forEach(name => {
 
@@ -359,11 +425,14 @@ function renderCategory() {
   $("categoryNumber").textContent =
     `CATEGORÍA ${currentCategory + 1} DE ${CATEGORIES.length}`;
 
+
   $("categoryIcon").textContent =
     category.icon;
 
+
   $("categoryTitle").textContent =
     category.name;
+
 
   $("categoryDescription").textContent =
     category.description;
@@ -372,8 +441,10 @@ function renderCategory() {
   $("rank1").value =
     saved.first || "";
 
+
   $("rank2").value =
     saved.second || "";
+
 
   $("rank3").value =
     saved.third || "";
@@ -389,8 +460,10 @@ function renderCategory() {
   $("progressText").textContent =
     `Categoría ${currentCategory + 1} de ${CATEGORIES.length}`;
 
+
   $("progressPercent").textContent =
     `${percent}%`;
+
 
   $("progressBar").style.width =
     `${percent}%`;
@@ -466,11 +539,14 @@ function saveCurrentCategory() {
 
   selections[currentCategory] = {
 
-    first: $("rank1").value,
+    first:
+      $("rank1").value,
 
-    second: $("rank2").value,
+    second:
+      $("rank2").value,
 
-    third: $("rank3").value
+    third:
+      $("rank3").value
 
   };
 
@@ -500,6 +576,31 @@ async function startVoting() {
   }
 
 
+  if (!supabaseClient) {
+
+    const initialized =
+      initializeSupabase();
+
+
+    if (!initialized) {
+
+      $("loginStatus").textContent =
+        "No se pudo cargar el sistema de votación.";
+
+
+      alert(
+        "No se pudo conectar con Supabase.\n\n" +
+        "La página cargó correctamente, pero " +
+        "el servicio de votación no está disponible."
+      );
+
+      return;
+
+    }
+
+  }
+
+
   $("loginStatus").textContent =
     "Verificando votante...";
 
@@ -515,17 +616,32 @@ async function startVoting() {
 
 
     if (error) {
-  console.error("ERROR SUPABASE COMPLETO:", error);
 
-  alert(
-    "ERROR SUPABASE\n\n" +
-    "Código: " + (error.code || "sin código") + "\n\n" +
-    "Mensaje: " + (error.message || "sin mensaje") + "\n\n" +
-    "Detalles: " + (error.details || "sin detalles") + "\n\n" +
-    "Pista: " + (error.hint || "sin pista")
-  );
+      console.error(
+        "ERROR SUPABASE COMPLETO:",
+        error
+      );
 
-  throw error;
+
+      alert(
+        "ERROR SUPABASE\n\n" +
+
+        "Código: " +
+        (error.code || "sin código") +
+
+        "\n\nMensaje: " +
+        (error.message || "sin mensaje") +
+
+        "\n\nDetalles: " +
+        (error.details || "sin detalles") +
+
+        "\n\nPista: " +
+        (error.hint || "sin pista")
+      );
+
+
+      throw error;
+
     }
 
 
@@ -549,9 +665,13 @@ async function startVoting() {
     }
 
 
-    currentVoter = voter;
+    currentVoter =
+      voter;
 
-    currentCategory = 0;
+
+    currentCategory =
+      0;
+
 
     selections =
       createEmptySelections();
@@ -559,6 +679,7 @@ async function startVoting() {
 
     $("loginCard")
       .classList.add("hidden");
+
 
     $("votingCard")
       .classList.remove("hidden");
@@ -568,17 +689,26 @@ async function startVoting() {
 
 
     window.scrollTo({
-      top: $("votingCard").offsetTop - 20,
-      behavior: "smooth"
+
+      top:
+        $("votingCard").offsetTop - 20,
+
+      behavior:
+        "smooth"
+
     });
 
 
   } catch (error) {
 
-    console.error(error);
+    console.error(
+      "Error iniciando votación:",
+      error
+    );
+
 
     $("loginStatus").textContent =
-      "No se pudo conectar con Supabase.";
+      "No se pudo verificar el miembro.";
 
   }
 
@@ -595,7 +725,9 @@ async function submitVoting() {
     $("nextButton");
 
 
-  button.disabled = true;
+  button.disabled =
+    true;
+
 
   button.textContent =
     "GUARDANDO...";
@@ -607,6 +739,7 @@ async function submitVoting() {
   selections.forEach(
     (selection, categoryIndex) => {
 
+
       payload.push({
 
         category_id:
@@ -615,9 +748,11 @@ async function submitVoting() {
         member_name:
           selection.first,
 
-        place: 1,
+        place:
+          1,
 
-        points: 3
+        points:
+          3
 
       });
 
@@ -630,9 +765,11 @@ async function submitVoting() {
         member_name:
           selection.second,
 
-        place: 2,
+        place:
+          2,
 
-        points: 2
+        points:
+          2
 
       });
 
@@ -645,9 +782,11 @@ async function submitVoting() {
         member_name:
           selection.third,
 
-        place: 3,
+        place:
+          3,
 
-        points: 1
+        points:
+          1
 
       });
 
@@ -657,18 +796,79 @@ async function submitVoting() {
 
   if (payload.length !== 84) {
 
-    button.disabled = false;
+    button.disabled =
+      false;
+
 
     button.textContent =
       "SIGUIENTE →";
+
 
     alert(
       "La votación no está completa."
     );
 
+
     return;
 
   }
+
+
+  if (!currentVoter) {
+
+    button.disabled =
+      false;
+
+
+    button.textContent =
+      "FINALIZAR VOTACIÓN ✓";
+
+
+    alert(
+      "No se identificó al votante."
+    );
+
+
+    return;
+
+  }
+
+
+  if (!supabaseClient) {
+
+    const initialized =
+      initializeSupabase();
+
+
+    if (!initialized) {
+
+      button.disabled =
+        false;
+
+
+      button.textContent =
+        "FINALIZAR VOTACIÓN ✓";
+
+
+      alert(
+        "Supabase no está disponible."
+      );
+
+
+      return;
+
+    }
+
+  }
+
+
+  console.log(
+    "Enviando votación:",
+    {
+      voter: currentVoter,
+      cantidad: payload.length
+    }
+  );
 
 
   try {
@@ -678,42 +878,90 @@ async function submitVoting() {
         .rpc(
           "submit_sagrada_vote",
           {
+
             p_voter_code:
               currentVoter,
 
             p_votes:
               payload
+
           }
         );
 
+
     if (error) {
-  console.error("ERROR RPC COMPLETO:", error);
 
-  alert(
-    "ERROR REAL DE SUPABASE\n\n" +
-    "Código: " + (error.code || "sin código") + "\n\n" +
-    "Mensaje: " + (error.message || "sin mensaje") + "\n\n" +
-    "Detalles: " + (error.details || "sin detalles") + "\n\n" +
-    "Pista: " + (error.hint || "sin pista")
-  );
+      console.error(
+        "ERROR RPC COMPLETO:",
+        error
+      );
 
-  throw error;
+
+      alert(
+        "ERROR REAL DE SUPABASE\n\n" +
+
+        "Votante: " +
+        currentVoter +
+
+        "\n\nCódigo: " +
+        (error.code || "sin código") +
+
+        "\n\nMensaje: " +
+        (error.message || "sin mensaje") +
+
+        "\n\nDetalles: " +
+        (error.details || "sin detalles") +
+
+        "\n\nPista: " +
+        (error.hint || "sin pista")
+      );
+
+
+      throw error;
+
     }
 
-     catch (error) {
 
-    console.error(error);
+    console.log(
+      "Votación registrada:",
+      data
+    );
 
-    button.disabled = false;
+
+    $("votingCard")
+      .classList.add("hidden");
+
+
+    $("successCard")
+      .classList.remove("hidden");
+
+
+    window.scrollTo({
+
+      top:
+        $("successCard").offsetTop - 20,
+
+      behavior:
+        "smooth"
+
+    });
+
+
+  } catch (error) {
+
+    console.error(
+      "Error guardando votación:",
+      error
+    );
+
+
+    button.disabled =
+      false;
+
 
     button.textContent =
       "FINALIZAR VOTACIÓN ✓";
 
-
-    alert(
-      "No se pudo guardar la votación.\n\n" +
-      error.message
-    );
 
   }
 
@@ -721,7 +969,7 @@ async function submitVoting() {
 
 
 // ==========================================
-// BOTÓN SIGUIENTE
+// SIGUIENTE CATEGORÍA
 // ==========================================
 
 function nextCategory() {
@@ -738,12 +986,20 @@ function nextCategory() {
 
     currentCategory++;
 
+
     renderCategory();
 
+
     window.scrollTo({
-      top: $("votingCard").offsetTop - 20,
-      behavior: "smooth"
+
+      top:
+        $("votingCard").offsetTop - 20,
+
+      behavior:
+        "smooth"
+
     });
+
 
     return;
 
@@ -756,7 +1012,7 @@ function nextCategory() {
 
 
 // ==========================================
-// BOTÓN ANTERIOR
+// CATEGORÍA ANTERIOR
 // ==========================================
 
 function previousCategory() {
@@ -768,7 +1024,9 @@ function previousCategory() {
 
   saveCurrentCategory();
 
+
   currentCategory--;
+
 
   renderCategory();
 
@@ -776,12 +1034,12 @@ function previousCategory() {
 
 
 // ==========================================
-// INICIO
+// INICIO DE LA PÁGINA
 // ==========================================
 
 document.addEventListener(
   "DOMContentLoaded",
-  async () => {
+  () => {
 
     console.log(
       "Sagrada Orden Awards 2026 iniciado."
@@ -792,30 +1050,61 @@ document.addEventListener(
       createEmptySelections();
 
 
+    // IMPORTANTE:
+    // Los miembros se cargan directamente
+    // sin depender de Supabase.
+
+    loadVoters();
+
+
     loadRankingOptions();
 
-    await loadVoters();
+
+    // Supabase se inicializa después.
+
+    initializeSupabase();
 
 
-    $("startButton")
-      .addEventListener(
+    const startButton =
+      $("startButton");
+
+
+    const nextButton =
+      $("nextButton");
+
+
+    const previousButton =
+      $("previousButton");
+
+
+    if (startButton) {
+
+      startButton.addEventListener(
         "click",
         startVoting
       );
 
+    }
 
-    $("nextButton")
-      .addEventListener(
+
+    if (nextButton) {
+
+      nextButton.addEventListener(
         "click",
         nextCategory
       );
 
+    }
 
-    $("previousButton")
-      .addEventListener(
+
+    if (previousButton) {
+
+      previousButton.addEventListener(
         "click",
         previousCategory
       );
+
+    }
 
 
     console.log(
