@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0c0b09">
+  <title>Sagrada Orden Awards 2026</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="ambient ambient-1"></div>
+  <div class="ambient ambient-2"></div>
+
+  <header class="topbar">
+    <a class="brand" href="#inicio" aria-label="Sagrada Orden">
+      <span class="crest">♜</span>
+      <span>
+        <small>SAGRADA</small>
+        <strong>ORDEN</strong>
+      </span>
+    </a>
+    <nav>
+      <a href="#inicio">Inicio</a>
+      <a href="#votacion">Votación</a>
+      <a href="#categorias">Categorías</a>
+      <a href="#resultados">Resultados</a>
+    </nav>
+    <div class="motto">La Sagrada Orden observa.<br>La Sagrada Orden recuerda.</div>
+  </header>
+
+  <main>
+    <section id="inicio" class="hero section">
+      <div class="hero-art">
+        <div class="sigil">◉</div>
+        <div class="torch torch-left">🔥</div>
+        <div class="torch torch-right">🔥</div>
+        <div class="knights">♞　♞　♞</div>
+      </div>
+      <div class="hero-copy">
+        <p class="eyebrow">🪬 CEREMONIA OFICIAL · 2026 🪬</p>
+        <h1>Sagrada Orden<br><span>Awards 2026</span></h1>
+        <div class="ornament">✦ ━━━━━ ✧ ━━━━━ ✦</div>
+        <h2>Bienvenidos a la ceremonia más importante de nuestra Orden.</h2>
+        <p>La Sagrada Orden se complace en presentar los <b>Sagrada Orden Awards 2026</b>, una celebración destinada a reconocer a los miembros más destacados de esta prestigiosa y selecta institución.</p>
+        <p>Después de meses de guardias, desvelos, parciales, pacientes, café, estrés y decisiones cuestionables, ha llegado el momento de reconocer aquello que verdaderamente distingue a cada miembro de la Orden.</p>
+        <blockquote>“Pertenecer a la Sagrada Orden no es simplemente sobrevivir a Medicina. Es dejar una marca.”</blockquote>
+        <button class="gold-btn" data-scroll="#votacion">ENTRAR A LA VOTACIÓN <span>→</span></button>
+      </div>
+      <aside class="scroll-card">
+        <h3>¿Cómo funcionan<br>las votaciones?</h3>
+        <p>En cada categoría deberás elegir a <b>TRES</b> personas.</p>
+        <div class="points"><div>🥇 <b>1.º</b><span>3 puntos</span></div><div>🥈 <b>2.º</b><span>2 puntos</span></div><div>🥉 <b>3.º</b><span>1 punto</span></div></div>
+        <p>Los puntos obtenidos por cada miembro serán sumados al finalizar las votaciones.</p>
+        <p class="tiny">Vota con honestidad. Vota con criterio. Vota por quien realmente lo merece.</p>
+      </aside>
+    </section>
+
+    <section id="votacion" class="section voting-section">
+      <div class="section-heading">
+        <p class="eyebrow">⚔️ EL GRAN SALÓN DE VOTACIÓN</p>
+        <h2>Que hable la Orden</h2>
+        <p>Primero identifica tu voto. Después asigna el podio de cada categoría.</p>
+      </div>
+
+      <div class="voter-gate" id="voterGate">
+        <div>
+          <span class="seal">🪬</span>
+          <h3>Identificación del miembro</h3>
+          <p>Para esta primera versión, usa un código único por votante. Ejemplo: <b>ORDEN-01</b>.</p>
+        </div>
+        <div class="gate-form">
+          <input id="voterCode" maxlength="30" autocomplete="off" placeholder="Código del votante">
+          <button class="gold-btn compact" id="startVoting">Comenzar</button>
+        </div>
+        <p class="gate-note" id="gateNote"></p>
+      </div>
+
+      <div id="votingApp" class="voting-app hidden">
+        <div class="progress-wrap">
+          <div class="progress-label"><span id="progressText">Categoría 1 de 28</span><span id="progressPercent">4%</span></div>
+          <div class="progress"><div id="progressBar"></div></div>
+        </div>
+
+        <div class="vote-layout">
+          <aside class="category-sidebar">
+            <h3>Categorías</h3>
+            <div id="categoryList"></div>
+          </aside>
+
+          <article class="vote-card">
+            <div class="category-number" id="categoryNumber">01</div>
+            <div class="vote-card-head">
+              <div>
+                <p class="eyebrow" id="categoryEyebrow">CATEGORÍA 1</p>
+                <h2 id="categoryTitle"></h2>
+                <p id="categoryDesc"></p>
+              </div>
+              <span class="category-emblem" id="categoryIcon">🦁</span>
+            </div>
+
+            <div class="podium-grid">
+              <label class="rank-card first"><span class="medal">🥇</span><span><b>PRIMER LUGAR</b><small>3 puntos</small></span><select id="rank1"></select></label>
+              <label class="rank-card second"><span class="medal">🥈</span><span><b>SEGUNDO LUGAR</b><small>2 puntos</small></span><select id="rank2"></select></label>
+              <label class="rank-card third"><span class="medal">🥉</span><span><b>TERCER LUGAR</b><small>1 punto</small></span><select id="rank3"></select></label>
+            </div>
+
+            <div class="validation" id="validation"></div>
+
+            <div class="vote-actions">
+              <button class="ghost-btn" id="prevBtn">← Anterior</button>
+              <button class="gold-btn" id="nextBtn">Guardar y continuar →</button>
+            </div>
+
+            <p class="quote">“La Sagrada Orden observa. La Sagrada Orden recuerda. Y la Sagrada Orden nunca olvida quién votó por quién. 🪬”</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="categorias" class="section categories-section">
+      <div class="section-heading">
+        <p class="eyebrow">📜 EL LIBRO DE LA ORDEN</p>
+        <h2>Las 28 categorías</h2>
+      </div>
+      <div class="category-grid" id="allCategories"></div>
+    </section>
+
+    <section id="resultados" class="section results-section">
+      <div class="section-heading">
+        <p class="eyebrow">👑 EL GRAN SALÓN DE RESULTADOS</p>
+        <h2>Resultados</h2>
+        <p>En esta versión de prueba, los resultados se calculan con los votos guardados en este navegador.</p>
+      </div>
+      <div class="results-toolbar">
+        <button class="gold-btn compact" id="refreshResults">Actualizar resultados</button>
+        <button class="ghost-btn" id="resetData">Borrar datos de este navegador</button>
+      </div>
+      <div id="resultsContent"></div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-sigil">🪬</div>
+    <h2>SAGRADA ORDEN AWARDS 2026</h2>
+    <p>Que comience la ceremonia.</p>
+    <small>Versión inicial · Sistema de votación local</small>
+  </footer>
+
+  <div class="toast" id="toast"></div>
+  <script src="app.js"></script>
+</body>
+</html>
