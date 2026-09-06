@@ -310,3 +310,121 @@ async function submitVote() {
   try {
     const response = await fetch(
       `${SUPABASE_URL}/rest/v1
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "apikey": SUPABASE_KEY,
+          "Authorization": `Bearer ${SUPABASE_KEY}`
+        },
+        body: JSON.stringify({
+          p_voter_code: voter,
+          p_votes: payload
+        })
+      }
+    );
+
+    const result = await response.json();
+
+    if (!response.ok) {
+      throw new Error(
+        result.message ||
+        result.error_description ||
+        result.hint ||
+        "Error al guardar la votación."
+      );
+    }
+
+    $("votingApp").classList.add("hidden");
+
+    const resultados = $("resultados");
+    if (resultados) resultados.classList.add("hidden");
+
+    const resultsContent = $("resultsContent");
+    if (resultsContent) resultsContent.innerHTML = "";
+
+    const gate = $("voterGate");
+    if (gate) gate.classList.add("hidden");
+
+    const main = $("votacion");
+    if (main) {
+      main.innerHTML = `
+        <div class="result-card" style="text-align:center;">
+          <div style="font-size:4rem;">🪬</div>
+          <h2>VOTACIÓN REGISTRADA</h2>
+          <p>Tu voto fue guardado correctamente.</p>
+          <p><strong>Los resultados permanecen secretos.</strong></p>
+        </div>
+      `;
+    }
+
+  } catch (error) {
+    console.error(error);
+
+    showToast(
+      "No se pudo guardar la votación: " + error.message
+    );
+
+    nextButton.disabled = false;
+
+    nextButton.textContent =
+      current === CATEGORIES.length - 1
+        ? "Finalizar votación ✓"
+        : "Guardar y continuar →";
+  }
+}
+
+function resetData() {
+  alert(
+    "Los votos ya no se guardan en este navegador. " +
+    "Los datos oficiales están protegidos en Supabase."
+  );
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  renderCategoryList();
+  renderAllCategories();
+  populateVoters();
+  populateSelects();
+
+  $("startVoting").onclick = startVoting;
+
+  $("nextBtn").onclick = () => {
+    if (!saveCurrent()) return;
+
+    if (current < CATEGORIES.length - 1) {
+      current++;
+      renderVote();
+
+      window.scrollTo({
+        top: $("votingApp").offsetTop - 90,
+        behavior: "smooth"
+      });
+    } else {
+      submitVote();
+    }
+  };
+
+  $("prevBtn").onclick = () => {
+    if (current > 0) {
+      current--;
+      renderVote();
+    }
+  };
+
+  if ($("resetData")) {
+    $("resetData").onclick = resetData;
+  }
+
+  document.querySelectorAll("[data-scroll]").forEach(b => {
+    b.onclick = () => {
+      const target = document.querySelector(b.dataset.scroll);
+
+      if (target) {
+        target.scrollIntoView({
+          behavior: "smooth"
+        });
+      }
+    };
+  });
+});
